@@ -1,0 +1,81 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+
+<div class="col-md-11 my-3 offset-md-1">
+<table *ngIf="showList !toSendNewWork" table class="table table-striped table-dark">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Naslov rada</th>
+            <th scope="col">Abstract</th>
+            <th scope="col">Kljucni pojmovi</th>
+            <th scope="col">Opcije</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let val of works; index as i">
+            <th scope="row">{{i+1}}</th>
+            <td>{{val.title}}</td>
+            <td>{{val.workAbstract}}</td>
+            <td>{{val.keyTerms}}</td>
+            <td>
+                <button class="btn btn-primary" (click)="openWork(val.id,val.processId,val.title)">Otvori</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+<div *ngIf="!showList && !toSendNewWork" class="row mt-2">
+    <div class="col-md-5 mx-auto" style="background-color: whitesmoke">
+        <h3 class="text-center" style="color: black">Recenzije:</h3>
+            <div class="form-group col-md-12 m-2" *ngFor="let field of workReviews">
+                <label></label>
+                <br>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Komentar recenzenta:</label>
+                    <textarea readonly type="text" class="form-control">{{field.authorComment}}</textarea>
+                </div>
+                <div class="form-group">
+                        <label for="exampleFormControlInput1">Datum recenzije:{{field.date}}</label>
+                </div>
+                <hr color="black">
+
+            </div>  
+            <div class="col-md-12 my-2">
+                <button class="btn btn-primary mr-1" (click)="getfixWorkForm()">Izmeni</button>
+            </div>
+    </div>
+</div>
+
+<div *ngIf="!showList && toSendNewWork" class="row mt-2">
+        <div class="col-md-5 mx-auto" style="background-color: whitesmoke">
+            <h3 class="text-center" style="color: black">Ispravka rada:</h3>
+            <form [formGroup]="fixingWorkForm" #f="ngForm" (ngSubmit)="postWorkFixForm(f.value, f)" ngNativeValidate>
+                <div class="form-group col-md-12 m-2" *ngFor="let field of formFields">
+                    <label  for={{field.id}}></label>
+                    <br>
+                    <div *ngIf="field.type.name=='string' && field.id != 'newPdfFile' " class="form-group">
+                            <label for="exampleFormControlInput1">{{field.label}}:</label>
+                            <textarea formControlName={{field.id}} type="text" class="form-control" id={{field.id}} ></textarea>
+                            <div *ngIf="submitted && fixingWorkForm.get(field.id).hasError('required')" class="error mb-3">
+                                <div style="color:red" *ngIf="fixingWorkForm.get(field.id).hasError('required')">Ovo polje je obavezno!!!</div>
+                            </div>
+                        </div>
+                        <div *ngIf="field.type.name=='string' && field.id == 'newPdfFile' " class="form-group">
+                                <label for="exampleFormControlInput1">{{field.label}}:</label>
+                                <input formControlName={{field.id}} (change)="pdfSelected($event)" type="file" accept=".pdf" class="form-control" id={{field.id}} >
+                                <div *ngIf="submitted && fixingWorkForm.get(field.id).hasError('required')" class="error mb-3">
+                                    <div style="color:red" *ngIf="fixingWorkForm.get(field.id).hasError('required')">Ovo polje je obavezno!!!</div>
+                                </div>
+                        </div>
+                </div> 
+                <div class="col-md-6 text-right">
+                    <input class="btn btn-primary" type="submit" value="Dalje">
+                </div>
+            </form><br>
+        </div>
+    </div>

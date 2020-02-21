@@ -1,0 +1,37 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<div class="row mt-2">
+    <div class="col-md-5 mx-auto" style="background-color: whitesmoke">
+        <h3 class="text-center" style="color: black">Registracija</h3>
+        <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)" ngNativeValidate>
+            <div class="form-group col-md-12 m-2" *ngFor="let field of formFields" >
+                <label  for={{field.id}}>{{field.label}}</label>
+                <br>
+                <input class="form-control" type="text" name={{field.id}} ngModel  *ngIf="field.type.name=='string'" >
+                <input checked="false" style="width: 1.85rem; height: 1.85rem;" class="form-control mx-auto" type="checkbox" name={{field.id}} ngModel  *ngIf="field.type.name=='boolean'">
+                <input class="form-control" type="number" name={{field.id}} ngModel  *ngIf="field.type.name=='long'">
+                <select class="form-contro form-control-lg col-md-6" multiple [(ngModel)]="selectedValues" (change)="onChange($event)" name="{{field.id}}"  *ngIf="field.type.name=='enum'">
+                  <option *ngFor="let val of enumObjects" value={{val.id}}>
+                    {{val.name}}
+                  </option>
+                </select>
+            </div> 
+            <div class="col-md-6 text-right">
+                <input class="btn btn-primary" type="submit" value="Registracija">
+            </div>
+        </form><br>
+    </div>
+    <!-- <div class="col-md-6">
+        <div class="form-group col-md-12">
+            <label class="mt-2" for=field.id>Naucne oblasti:</label>
+            <br>
+            <select class="form-contro form-control-lg col-md-6" multiple [(ngModel)]="selectedValues" (change)="onChange($event)" name="formScienceArea"  *ngIf="enumHere">
+                <option *ngFor="let val of enumObjects" value={{val.id}}>{{val.name}}</option>
+            </select>
+        </div>
+    </div> -->
+</div>
+
+  

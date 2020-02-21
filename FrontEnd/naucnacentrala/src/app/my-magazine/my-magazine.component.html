@@ -1,0 +1,40 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<div class="bg-light col-md-6 offset-md-3 my-3 pb-3" *ngIf="!firstPhaseSuccessed">
+    <div class="text-center py-3">
+        <h3>Casopis</h3>
+    </div>
+    <div class="col-md-6 offset-md-3">
+    <form [formGroup]="magazineForm" (ngSubmit)="sendCorrection()">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Naziv casopisa:</label>
+          <input formControlName="name" type="text" class="form-control" id="magazineName" placeholder="Naziv casopisa">
+        </div>
+        <div *ngIf="submitted && magazineForm.controls.name.errors" class="error mb-3">
+            <div style="color:red" *ngIf="magazineForm.controls.name.errors.required">Unesite ime casopisa</div>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">ISSN casopisa:</label>
+            <input formControlName="issn" type="text" class="form-control" id="magazineIssn" placeholder="ISSN casopisa">
+          </div>
+          <div *ngIf="submitted && magazineForm.controls.issn.errors" class="error mb-3">
+              <div style="color:red" *ngIf="magazineForm.controls.issn.errors.required">Unesite ISSN casopisa</div>
+          </div>
+        <div class="form-group">
+          <label for="payingMethodSelect">Odaberite nacin placanja:</label>
+          <select formControlName="membershipType" class="form-control" id="payingMethodSelect">
+            <option value="1">Naplata se vrsi autorima</option>
+            <option value="2">Naplata se vrsi citaoicima</option>
+          </select>
+          <div *ngIf="submitted && magazineForm.controls.membershipType.errors" class="error mb-3">
+            <div style="color:red" *ngIf="magazineForm.controls.membershipType.required">Odaberite nacin placanja</div>
+        </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary form-control-lg" value="Posalji izmene"  />
+        </div>
+      </form>
+      </div>
+</div>

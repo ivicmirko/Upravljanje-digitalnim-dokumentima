@@ -1,0 +1,88 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+
+<div *ngIf="showList && !toSetDate" class="col-md-11 my-3 offset-md-1">
+<table *ngIf="showList" table class="table table-striped table-dark">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Naslov rada</th>
+            <th scope="col">Ime autora</th>
+            <th scope="col">Prezime auora</th>
+            <th scope="col">Opcije</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let val of works; index as i">
+            <th scope="row">{{i+1}}</th>
+            <td>{{val.title}}</td>
+            <td>{{val.authorName}}</td>
+            <td>{{val.authorSurname}}</td>
+            <td>
+                <button class="btn btn-primary" (click)="getReviewersBySA(val.id)">Dodaj recenzente</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+<div *ngIf="!showList && !toSetDate" class="row mt-2">
+    
+    <div class="col-md-5 mx-auto" style="background-color: whitesmoke">
+        
+        <h3 class="text-center" style="color: black">Izaberite recenzente:</h3>
+        <div class="offset-md-1 mb-2">
+                <button class="btn btn-warning mr-1" (click)="bySA()">Iz naucne oblasti</button>
+                <button class="btn btn-warning  mr-1" (click)="byMoreLikeThis()">More like this</button>
+                <button class="btn btn-warning  mr-1" (click)="byGeoSpace()">Dalji od 100km</button>
+        </div>
+        <form [formGroup]="chooseReviewersForm" #f="ngForm" (ngSubmit)="chooseReviewers(f.value, f)" ngNativeValidate>
+            <div class="form-group col-md-12 m-2">
+                <label >Recenzenti:</label>
+                <br>
+                
+                <div class="text-center">
+                    <select multiple formControlName="chooseReviewers" class="form-contro form-control-lg col-md-12">
+                    <option *ngFor="let val of reviewers" value={{val.id}}>
+                        {{val.name}}
+                    </option>
+                    </select>
+                    <div *ngIf="submitted && chooseReviewersForm.get('chooseReviewers').hasError('minlength')" class="error mb-3">
+                            <div style="color:red" *ngIf="chooseReviewersForm.get('chooseReviewers').hasError('minlength')">Odaberite bar 2 recenzneta!</div>
+                    </div>
+                </div>
+            </div> 
+            <div class="col-md-6 text-right">
+                <input class="btn btn-primary" type="submit" value="Dalje">
+            </div>
+        </form><br>
+    </div>
+</div>
+
+<!-- <div *ngIf="!showList && toSetDate" class="row mt-2">
+    <div class="col-md-5 mx-auto" style="background-color: whitesmoke">
+        <h3 class="text-center" style="color: black">Zadajte rok za recenzente:</h3>
+        <form [formGroup]="setDateForm" #ff="ngForm" (ngSubmit)="setDate(ff.value, ff)" ngNativeValidate>
+            <div class="form-group col-md-12 m-2" *ngFor="let field of formFields2">
+                <label  for={{field.id}}></label>
+                <br>
+                <div class="text-center">
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">{{field.label}}</label>
+                        <input formControlName={{field.id}}  type="number" class="form-control" id={{field.id}} >         
+                </div>
+                    <div *ngIf="submitted2 && setDateForm.get(field.id).hasError('required')" class="error mb-3">
+                            <div style="color:red" *ngIf="setDateForm.get(field.id).hasError('required')">Odaberite datum!</div>
+                    </div>
+                </div>
+            </div> 
+            <div class="col-md-6 text-right">
+                <input class="btn btn-primary" type="submit" value="Dalje">
+            </div>
+        </form><br>
+    </div>
+</div> -->
+

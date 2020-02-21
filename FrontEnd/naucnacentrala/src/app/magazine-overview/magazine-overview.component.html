@@ -1,0 +1,39 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<div *ngFor="let val of magazines" class="bg-light col-md-6 offset-md-3 my-3 pb-3">
+    <div class="text-center py-3">
+        <h3>Casopis: {{val.name}}</h3>
+    </div>
+    <div class="col-md-6 offset-md-3 offset-sm-1">
+        <div class="form-group">
+            <label for="exampleFormControlInput1">ISSN casopisa:</label>
+            <input readonly type="text" class="form-control" id="magazineIssn" value="{{val.issn}}">
+          </div>
+        <div class="form-group">
+          <label for="payingMethodSelect">Open-access:</label>
+            <input readonly type="checkbox" disabled="disabled" class="form-control" [checked]="val.openAccess" value="val.openAccess"> 
+        </div>
+        <div class="form-group">
+          <label for="magazineScienceAreas">Naucne oblasti casopisa:</label>
+          <select readonly multiple class="form-control" id="magazineScienceAreas">
+            <option *ngFor="let sa of val.scienceAreas" >
+                {{sa.name}}
+              </option>
+          </select>
+        </div>
+        <div class="form-group">
+            <label for="magazineScienceAreas">Recenzenti:</label>
+            <select readonly multiple class="form-control" id="magazineReviewers">
+              <option *ngFor="let rew of val.reviewers" >
+                  {{rew.name}} {{rew.surname}}, {{rew.city}}, {{rew.country}}
+                </option>
+            </select>
+          </div>
+        <div  class="form-group row">
+            <button  class="btn btn-primary mr-2" (click)="approveMagazine(val.id)">Prihvati casopis</button>
+            <button class="btn btn-warning" (click)="correctionMagazine(val.id)">Posalji na ispravku casopis</button>
+        </div>
+      </div>
+</div>

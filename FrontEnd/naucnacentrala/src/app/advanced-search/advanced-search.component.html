@@ -1,0 +1,119 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<button *ngIf="showList" class="btn btn-warning offset-md-1" (click)="back()">Nazad</button>
+<div *ngIf="showList">
+    <div *ngFor="let val of works"  class="col-md-11 my-3 offset-md-1 mx-auto">
+            <div class="card">
+                    <h5 class="card-header">{{val.title}}</h5>
+                    <div class="card-body btn-warning" >
+                    <h5 class="card-title">Casopis:{{val.magazineName}}</h5>
+                    <h5 class="card-title">Abstrakt:</h5>
+                    <p class="card-text">{{val.workAbstract}}</p>
+                    <h5 class="card-title">Autori:</h5>
+                    <p class="card-text">{{val.authors}}</p>
+                    <br>
+                    <h5 class="card-title">Highlights:</h5>
+                    <p class="card-text" [innerHtml]="val.highlight"></p>
+                    
+                    <button class="btn btn-primary offset-md-10">Preuzmi</button>
+                    <!-- <button class="btn btn-warning offset-md-10">Kupi</button> -->
+                    </div>
+                </div>
+    <!-- <table *ngIf="showList && searchType==0" table class="table table-striped table-dark">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">casopis</th>
+                <th scope="col">Naslov rada</th>
+                <th scope="col">Abstrakt</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Opcije</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let val of works; index as i">
+                <th scope="row">{{i+1}}</th>
+                <td>{{val.title}}</td>
+                <td>{{val.workAbstract}}</td>
+                <td>{{val.name}}</td>
+                <td>
+                    <button class="btn btn-primary" (click)="getCheckWorkForm(val.id,val.title)">Otvori</button>
+                </td>
+            </tr>
+            </tbody>
+        </table> -->
+    </div>
+</div>
+
+<div class="bg-light col-md-6 offset-md-3 my-3 pb-3" *ngIf="!showList">
+        <div class="text-center py-3">
+            <h3>Pretraga radova:</h3>
+            <h4>Ukoliko ne zelite da pretrazujete po nekom polju samo ga ostavite praznim</h4>
+        </div>
+        <div class="col-md-6 offset-md-3">
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Po nazivu casopisa:</label>
+                <input [(ngModel)]="magazineName"  type="text" class="form-control">
+            </div>
+            <div  class="form-group">
+                    <input [(ngModel)]="magazineCheck" checked type="radio" id="magazineCheckAND" name="magazineCheck" value=true>
+                    <label for="magazineCheckAND">AND</label><br>
+                    <input [(ngModel)]="magazineCheck" type="radio" id="magazineCheckOR" name="magazineCheck" value=false>
+                    <label for="magazineCheckOR">OR</label><br>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">po naslovu rada:</label>
+                <input [(ngModel)]="title"  type="text" class="form-control" >
+            </div>
+            <div  class="form-group">
+                    <input [(ngModel)]="titleCheck" checked type="radio" id="titleCheckAND" name="titleCheck" value=true>
+                    <label for="titleCheckAND">AND</label><br>
+                    <input [(ngModel)]="titleCheck" type="radio" id="titleCheckOR" name="titleCheck" value=false>
+                    <label for="titleCheckOR">OR</label><br>
+            </div>
+            <div  class="form-group">
+              <label for="exampleFormControlInput1">po kljucnim pojmovima:</label>
+              <input [(ngModel)]="keyTerms"  type="text" class="form-control" >
+            </div>
+            <div  class="form-group">
+                    <input [(ngModel)]="keyTermsCheck" checked type="radio" id="keyTermsCheckAND" name="keyTermsCheck" value=true>
+                    <label for="keyTermsCheckAND">AND</label><br>
+                    <input [(ngModel)]="keyTermsCheck" type="radio" id="keyTermsCheckOR" name="keyTermsCheck" value=false>
+                    <label for="keyTermsCheckOR">OR</label><br>   
+            </div>
+            <div  class="form-group">
+                <label for="exampleFormControlInput1">po sadrzaju:</label>
+                <textarea [(ngModel)]="content"  type="text" class="form-control"></textarea>
+            </div>
+            <div  class="form-group">
+                    <input [(ngModel)]="contentCheck" checked type="radio" id="contentCheckAND" name="contentCheck" value=true>
+                    <label for="contentCheckAND">AND</label><br>
+                    <input [(ngModel)]="contentCheck" type="radio" id="contentCheckOR" name="contentCheck" value=false placeholder="aa">
+                    <label for="contentCheckOR">OR</label><br>    
+            </div> 
+            <div *ngIf="false" class="form-group">
+                    <label for="exampleFormControlInput1">po naucnim oblastima:</label>
+                    <select multiple [(ngModel)]="scienceAreass" class="form-contro form-control-lg col-md-12">
+                        <option  value=0>!Bez filtera za naucne oblati!</option>
+                        <option *ngFor="let val of scienceAreas" value={{val.id}}>
+                                        {{val.name}}
+                        </option>
+                    </select>
+                </div>
+                <div  class="form-group">
+                    <label for="exampleFormControlInput1">po autorima:</label>
+                    <input [(ngModel)]="authors"  type="text" class="form-control" >
+                </div>
+                <div  class="form-group">
+                        <input [(ngModel)]="authorsCheck" checked type="radio" id="authorsCheckAND" name="authorsCheck" value=true>
+                        <label for="authorsCheckAND">AND</label><br>
+                        <input [(ngModel)]="authorsCheck" type="radio" id="authorsCheckOR" name="authorsCheckOR" value=false>
+                        <label for="authorsCheckOR">OR</label><br> 
+                </div>                
+        <div class="form-group">
+                <button class="btn btn-primary mr-1" (click)="search()">Pretrazi</button>
+        </div>
+          </div>
+</div>

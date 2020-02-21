@@ -1,0 +1,150 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<div *ngIf="!firstPhaseFinished && !showCoauthors" class="row mt-2">
+    <div class="col-md-5 mx-auto" style="background-color: whitesmoke">
+        <h3 class="text-center" style="color: black">Izaberite casopis:</h3>
+        <form [formGroup]="choosingMagazineForm" #f="ngForm" (ngSubmit)="chooseMagazine(f.value, f)" ngNativeValidate>
+            <div class="form-group col-md-12 m-2" >
+                <label  for=Casopisi:></label>
+                <br>
+                <div class="text-center">
+                    <select formControlName="chooseMagazineForm" class="form-contro form-control-lg col-md-6">
+                    <option *ngFor="let magazine of magazines" value={{magazine.id}}>
+                        {{magazine.name}}
+                    </option>
+                    </select>
+                    <div *ngIf="submitted && choosingMagazineForm.get('chooseMagazineForm').hasError('required')" class="error mb-3">
+                            <div style="color:red" *ngIf="choosingMagazineForm.get('chooseMagazineForm').hasError('required')">Odaberite casopis!</div>
+                    </div>
+                </div>
+            </div> 
+            <div class="col-md-6 text-right">
+                <input class="btn btn-primary" type="submit" value="Dalje">
+            </div>
+        </form><br>
+    </div>
+</div>
+
+<div class="bg-light col-md-6 offset-md-3 my-3 pb-3" *ngIf="firstPhaseFinished && !showCoauthors">
+        <div class="text-center py-3">
+            <h3>Informacije o radu</h3>
+        </div>
+        <div class="col-md-6 offset-md-3">
+        <form [formGroup]="inputDetailsOfWorkForm" #ff="ngForm" (ngSubmit)="sendMagazineData(ff.value, ff)">
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Naslov rada:</label>
+                    <input formControlName="titleForm" type="text" class="form-control" >
+                    <div *ngIf="submitted2 && inputDetailsOfWorkForm.get('titleForm').hasError('required')" class="error mb-3">
+                        <div style="color:red" *ngIf="inputDetailsOfWorkForm.get('titleForm').hasError('required')">Ovo polje je obavezno!!!</div>
+                    </div>
+                </div>
+                <div  class="form-group">
+                    <label for="exampleFormControlInput1">Abstract rada:</label>
+                    <input formControlName="abstractWorkForm" type="text" class="form-control">
+                    <div *ngIf="submitted2 && inputDetailsOfWorkForm.get('abstractWorkForm').hasError('required')" class="error mb-3">
+                        <div style="color:red" *ngIf="inputDetailsOfWorkForm.get('abstractWorkForm').hasError('required')">Ovo polje je obavezno!!!</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Kljucni pojmovi:</label>
+                    <input formControlName="keyTermsForm" type="text" class="form-control" >
+                    <div *ngIf="submitted2 && inputDetailsOfWorkForm.get('keyTermsForm').hasError('required')" class="error mb-3">
+                        <div style="color:red" *ngIf="inputDetailsOfWorkForm.get('keyTermsForm').hasError('required')">Ovo polje je obavezno!!!</div>
+                    </div>
+                </div>
+                <div  class="form-group">
+                        <label for="exampleFormControlInput1">PDF:</label>
+                        <input formControlName="pdfWorkForm" (change)="pdfSelected($event)" type="file" accept=".pdf" class="form-control" >
+                        <div *ngIf="submitted2 && inputDetailsOfWorkForm.get('pdfWorkForm').hasError('required')" class="error mb-3">
+                            <div style="color:red" *ngIf="inputDetailsOfWorkForm.get('pdfWorkForm').hasError('required')">Ovo polje je obavezno!!!</div>
+                        </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Broj koautora:</label>
+                    <input formControlName="numberCoauthorsForm" type="number" class="form-control">
+                    <div *ngIf="submitted && inputDetailsOfWorkForm.get('numberCoauthorsForm').hasError('required')" class="error mb-3">
+                        <div style="color:red" *ngIf="inputDetailsOfWorkForm.get('numberCoauthorsForm').hasError('required')">Ovo polje je obavezno</div>
+                    </div>
+                </div>
+                <div  class="form-group">
+                    <label for="payingMethodSelect">Naucna oblast rada:</label>
+                    <select formControlName="scienceAreaForm" class="form-control">
+                        <option *ngFor="let val of scienceAreasOfMagazine" value={{val.id}}>
+                                {{val.name}}
+                        </option>
+                    </select>
+                    <div *ngIf="submitted && inputDetailsOfWorkForm.get('scienceAreaForm').hasError('required')" class="error mb-3">
+                        <div style="color:red" *ngIf="inputDetailsOfWorkForm.get('scienceAreaForm').hasError('required')">Ovo polje je obavezno!!!</div>
+                    </div>
+                </div>
+            <div class="form-group">
+                    <input type="submit" class="btn btn-primary form-control-lg" value="Dodaj rad"  />
+            </div>
+          </form>
+          </div>
+    </div>
+
+    <div class="bg-light col-md-6 offset-md-3 my-3 pb-3" *ngIf="!firstPhaseFinished && showCoauthors">
+            <div class="text-center py-3">
+                <h3>Dodavanje koautora{{this.numOfCoAuthors}}</h3>
+            </div>
+            <div class="col-md-6 offset-md-3">
+            <form [formGroup]="coAuthorForm" #fff="ngForm" (ngSubmit)="postCoauthor(fff.value, fff)">
+                <div  class="form-group">
+                    <label for="exampleFormControlInput1">Ime:</label>
+                    <input formControlName="nameCoForm" type="text" class="form-control"  >
+                    <div *ngIf="submitted3 && coAuthorForm.get('nameCoForm').hasError('required')" class="error mb-3">
+                        <div style="color:red" *ngIf="coAuthorForm.get('nameCoForm').hasError('required')">Ovo polje je obavezno!!!</div>
+                    </div>
+                </div>
+                <div  class="form-group">
+                    <label for="exampleFormControlInput1">Prezime:</label>
+                    <input formControlName="surnameCoForm" type="text" class="form-control"  >
+                    <div *ngIf="submitted3 && coAuthorForm.get('surnameCoForm').hasError('required')" class="error mb-3">
+                        <div style="color:red" *ngIf="coAuthorForm.get('surnameCoForm').hasError('required')">Ovo polje je obavezno!!!</div>
+                    </div>
+                </div>
+                <div  class="form-group">
+                    <label for="exampleFormControlInput1">Email:</label>
+                    <input formControlName="emailCoForm" type="text" class="form-control"  >
+                    <div *ngIf="submitted3 && coAuthorForm.get('emailCoForm').hasError('required')" class="error mb-3">
+                        <div style="color:red" *ngIf="coAuthorForm.get('emailCoForm').hasError('required')">Ovo polje je obavezno!!!</div>
+                    </div>
+                </div>
+                <div  class="form-group">
+                    <label for="exampleFormControlInput1">Drzava:</label>
+                    <input formControlName="countryCoForm" type="text" class="form-control"  >
+                    <div *ngIf="submitted3 && coAuthorForm.get('countryCoForm').hasError('required')" class="error mb-3">
+                        <div style="color:red" *ngIf="coAuthorForm.get('countryCoForm').hasError('required')">Ovo polje je obavezno!!!</div>
+                    </div>
+                </div>
+                <div  class="form-group">
+                    <label for="exampleFormControlInput1">Grad:</label>
+                    <input formControlName="cityCoForm" type="text" class="form-control"  >
+                    <div *ngIf="submitted3 && coAuthorForm.get('cityCoForm').hasError('required')" class="error mb-3">
+                        <div style="color:red" *ngIf="coAuthorForm.get('cityCoForm').hasError('required')">Ovo polje je obavezno!!!</div>
+                    </div>
+                </div>
+                <div  class="form-group">
+                    <label for="exampleFormControlInput1">Longitude:</label>
+                    <input formControlName="longitudeForm" type="number" class="form-control"  >
+                    <div *ngIf="submitted3 && coAuthorForm.get('longitudeForm').hasError('required')" class="error mb-3">
+                        <div style="color:red" *ngIf="coAuthorForm.get('longitudeForm').hasError('required')">Ovo polje je obavezno!!!</div>
+                    </div>
+                </div>
+                <div  class="form-group">
+                    <label for="exampleFormControlInput1">Latitude:</label>
+                    <input formControlName="latitudeForm" type="number" class="form-control"  >
+                    <div *ngIf="submitted3 && coAuthorForm.get('latitudeForm').hasError('required')" class="error mb-3">
+                        <div style="color:red" *ngIf="coAuthorForm.get('latitudeForm').hasError('required')">Ovo polje je obavezno!!!</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                        <input type="submit" class="btn btn-primary form-control-lg" value="Dodaj koautora"  />
+                </div>
+              </form>
+              </div>
+        </div>

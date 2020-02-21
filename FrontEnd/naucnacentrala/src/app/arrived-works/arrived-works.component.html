@@ -1,0 +1,55 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+
+<div class="col-md-11 my-3 offset-md-1">
+<table *ngIf="showList" table class="table table-striped table-dark">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Naslov rada</th>
+            <th scope="col">Ime autora</th>
+            <th scope="col">Prezime autora</th>
+            <th scope="col">Opcije</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let val of arrivedWorks; index as i">
+            <th scope="row">{{i+1}}</th>
+            <td>{{val.title}}</td>
+            <td>{{val.authorName}}</td>
+            <td>{{val.authorSurname}}</td>
+            <td>
+                <button class="btn btn-primary" (click)="getCheckWorkForm(val.id,val.title)">Otvori</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+<div class="bg-light col-md-6 offset-md-3 my-3 pb-3" *ngIf="!showList">
+        <div class="text-center py-3">
+            <h3>Informacije o radu</h3>
+        </div>
+        <div class="col-md-6 offset-md-3">
+              <div class="form-group">
+                  <label for="exampleFormControlInput1">Naslov:</label>
+                  <input readonly type="text" class="form-control" value={{work.title}} >           
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Abstrakt:</label>
+                <input readonly type="text" class="form-control" value={{work.keyTerms}} >           
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Kljucni pojmovi:</label>
+              <input readonly type="text" class="form-control" value={{work.workAbstract}} >           
+          </div>               
+        <div class="form-group">
+                <button class="btn btn-primary mr-1" (click)="approveWorkDetails()">Pruzmi PDF rada</button>
+                <button class="btn btn-danger" (click)="denyWorkDetails()">Obij rad</button>
+        </div>
+          </div>
+</div>
+

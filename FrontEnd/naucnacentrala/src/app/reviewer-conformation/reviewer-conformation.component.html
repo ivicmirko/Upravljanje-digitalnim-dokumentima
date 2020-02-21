@@ -1,0 +1,22 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<div class="container ">
+<div class="container">
+    <h3>Zahtevi za ulogu recenzneta</h3>
+</div>
+<div class="row">
+    <div class="col-md-8 bg-light" *ngFor="let request of requests">
+            <div class="form-group ml-2 mt-3  text-dark col-md-6 " *ngFor="let field of request.formFields">
+                <h5>{{field.label}}</h5>
+                <input class="form-control" type="text" readonly value="{{field.defaultValue}}">
+            </div>
+            
+            <div class="form-group ml-2 mt-3  text-dark col-md-6 ">
+                <button class="btn btn-primary" (click)="approve(request.taskId)">Prihvati</button>&nbsp;&nbsp;&nbsp;
+                <button class="btn btn-warning" (click)="deny(request.taskId)">Odbij</button>
+            </div>
+    </div>
+</div>
+
+    

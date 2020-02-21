@@ -1,0 +1,42 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+    <div  class="container login-container">
+                <div class="row">
+                    <div class="col-md-6 login-form-1">
+                        <h3>Prijava</h3>
+                        <form [formGroup]="loginForm" (ngSubmit)="login()">
+                            <div class="form-group">
+                                <input formControlName="username" type="text" class="form-control" placeholder="Korisnicko ime *" value="" />
+                            </div>
+                            <div *ngIf="submitted && loginForm.controls.username.errors" class="error mb-3">
+                                    <div style="color:red" *ngIf="loginForm.controls.username.errors.required">Unesite korisnicko ime</div>
+                            </div>
+                            <div *ngIf="submitted && loginForm.controls.username.errors" class="error mb-3">
+                                <div style="color:red" *ngIf="loginForm.controls.username.hasError('minlength')">Unesitesda korisnicko ime</div>
+                        </div>
+                            <div class="form-group">
+                                <input  formControlName="password" type="password" class="form-control" placeholder="Lozinka *" value="" />
+                            </div>
+                            <div *ngIf="submitted && loginForm.controls.password.errors" class="error mb-3">
+                                    <div style="color:red" *ngIf="loginForm.controls.password.errors.required">Unesite lozinku</div>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" class="btnSubmit" value="Prijava"  />
+                            </div>
+                            
+                        </form>
+                        <div class="form-group">
+                            <a href="/registration" class="ForgetPwd" value="Login">Nemate nalog? Registrujte se</a>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>

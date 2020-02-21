@@ -1,0 +1,50 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<div class="col-md-11 my-3 offset-md-1">
+<table *ngIf="showList" table class="table table-striped table-dark">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Naslov rada</th>
+            <th scope="col">Opcije</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let val of checkPdfWorks; index as i">
+            <th scope="row">{{i+1}}</th>
+            <td>{{val.title}}</td>
+            <td>
+                <button class="btn btn-primary mr-2" (click)="openFixWorkFormat(val.id,val.processId,val.title)">Otvori</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+<div class="bg-light col-md-6 offset-md-3 my-3 pb-3" *ngIf="!showList">
+    <div class="text-center py-3">
+        <h3>Zahtev za ispravku</h3>
+    </div>
+    <form [formGroup]="fixingPdfFormatForm" #f="ngForm" (ngSubmit)="sendFixedPdfFormat(f.value, f)">
+        <div class="col-md-6 offset-md-3">
+            <div *ngFor="let field of formFields">
+                <div *ngIf="field.type.name=='string' && field.id != 'newPdfAuthor' " class="form-group">
+                    <label for="exampleFormControlInput1">{{field.label}}</label>
+                    <textarea formControlName="{{field.id}}" readonly type="text" class="form-control" id={{field.id}} rows="5" value="{{field.defaultValue}}"> </textarea>          
+                </div>
+                <div *ngIf="field.type.name=='string' && field.id == 'newPdfAuthor' " class="form-group">
+                    <label for="exampleFormControlInput1">{{field.label}}:</label>
+                    <input  formControlName={{field.id}} (change)="pdfSelected($event)" type="file" accept=".pdf" class="form-control" id={{field.id}} >
+                    <div *ngIf="submitted && fixingPdfFormatForm.get(field.id).hasError('required')" class="error mb-3">
+                        <div style="color:red" *ngIf="fixingPdfFormatForm.get(field.id).hasError('required')">Ovo polje je obavezno!!!</div>
+                    </div>        
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Posalji izmenu">
+            </div>
+        </div>
+    </form>
+</div>

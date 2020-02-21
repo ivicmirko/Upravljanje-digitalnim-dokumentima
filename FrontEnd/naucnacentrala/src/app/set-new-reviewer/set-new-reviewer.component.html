@@ -1,0 +1,25 @@
+<div class="row mt-2">
+        <div class="col-md-5 mx-auto" style="background-color: whitesmoke">
+            <h3 class="text-center" style="color: black">Izaberite recenzente:</h3>
+            <h4 class="text-center" style="color: black">Recenzent kom je isteklo vreme: {{oldUsername}}</h4>
+            <form [formGroup]="setNewReviewerForm" #f="ngForm" (ngSubmit)="chooseNewReviewer(f.value, f)" ngNativeValidate>
+                <div class="form-group col-md-12 m-2" *ngFor="let field of formFields">
+                    <label  for={{field.id}}></label>
+                    <br>
+                    <div class="text-center">
+                        <select  formControlName={{field.id}} class="form-contro form-control-lg col-md-12" name="{{field.id}}">
+                        <option *ngFor="let val of enumObjects" value={{val.id}}>
+                            {{val.name}}
+                        </option>
+                        </select>
+                        <div *ngIf="submitted && setNewReviewerForm.get(field.id).hasError('required')" class="error mb-3">
+                                <div style="color:red" *ngIf="setNewReviewerForm.get(field.id).hasError('required')">Odaberite recenzenta!</div>
+                        </div>
+                    </div>
+                </div> 
+                <div class="col-md-6 text-right">
+                    <input class="btn btn-primary" type="submit" value="Posalji">
+                </div>
+            </form><br>
+        </div>
+    </div>
